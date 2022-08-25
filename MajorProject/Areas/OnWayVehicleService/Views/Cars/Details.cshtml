@@ -1,0 +1,45 @@
+﻿@model MajorProject.Models.Car
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div style="padding-top:6rem;padding-left:2rem;padding-right:2rem">
+
+<h1>Details</h1>
+
+<div>
+    <h4>Car</h4>
+    <hr />
+    <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Customers)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Customers.CustomerName)
+            </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarModels)
+        </dt>
+        <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.CarModels.CarModels) ,
+              @Html.DisplayFor(model => model.CarModels.CarCompanies.CarCompanies)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            Email
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Customers.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CarId">Edit</a> 
+@*    <a asp-action="Index">Back to List</a>
+*@</div>
+</div>

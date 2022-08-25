@@ -1,0 +1,56 @@
+﻿@model MajorProject.Models.Payment
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div style="padding-top:6rem;padding-left:2rem;padding-right:2rem">
+
+<h1>Details</h1>
+
+<div>
+    <h4>Payment</h4>
+    <hr />
+    <dl class="row">
+            <dt class="col-sm-2">
+                Car Number
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ServiceBookings.Issues.Cars.CarNumber)
+            </dd>
+            <dt class="col-sm-2">
+                Car Current Loaction
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ServiceBookings.CurrentLocationOfCar)
+            </dd>
+        <dt class = "col-sm-2">
+            Price
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServiceBookings.Services.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentModes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PaymentModes.PaymentModes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UPIID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UPIID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PStatus)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PaymentId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</div>

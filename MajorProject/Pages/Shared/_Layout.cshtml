@@ -1,0 +1,123 @@
+﻿@using MajorProject.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> userManager
+
+@{
+    IdentityUser userObj = null;
+    if (this.User != null)
+    {
+        userObj = await userManager.GetUserAsync(this.User);
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MajorProject</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <header>
+
+        <nav style="overflow:visible; position: fixed;z-index:330;background-image: linear-gradient(rgba(0, 0, 0,0.2),rgb(0, 0, 0,0.3));">
+            <div class="">
+                <div class="icon-bar">
+                    <i class="fa fa-bars fa-2x"></i>
+                </div>
+
+                <div class="logo" style="">
+                    <a asp-area="" asp-page="/Index" style="color:#fff;text-decoration:none">MyGarageServices</a>
+                </div>
+
+                <ul>
+                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+
+
+                    @*User Option*@
+                    @if (userObj != null)
+                    {
+                        if (await userManager.IsInRoleAsync(userObj, MyIdentityRoleNames.RoleUser.ToString()))
+                        {
+                            <li><a asp-area="OnWayVehicleService" asp-controller="Customers" asp-action="Create" style="color:white">New Here!!</a></li>
+
+                            <li><a asp-area="OnWayVehicleService" asp-controller="Issues" asp-action="Create" style="color:white">Exsisting User</a></li>
+                        }
+                    }
+
+
+                    <li><a asp-area="OnWayVehicleService" asp-controller="Services" asp-action="Index" style="color:white"> Services </a></li>
+
+                    @*Admin Option*@
+                    @if (userObj != null)
+                    {
+                        if (await userManager.IsInRoleAsync(userObj, MyIdentityRoleNames.RoleAdmin.ToString()))
+                        {
+
+                            <li class="">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        Add New Services
+                                    </button>
+                                    <div class="dropdown-menu">
+
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="Services" asp-action="Create" style="color:black"> Add New Services </a>
+
+                                        <a class="dropdown-item"  asp-area="OnWayVehicleService" asp-controller="Issues" asp-action="Index" style="color:black">Issues</a>
+                                        <a class="dropdown-item"  asp-area="OnWayVehicleService" asp-controller="ServiceBookings" asp-action="Index1" style="color:black">Check Bookings</a>
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        Add New Car
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="CarModels" asp-action="Index"> Car Models</a>
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="CarComapnies" asp-action="Index"> Car Companies</a>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                        }
+                    }
+                    <partial name="_LoginPartial" />
+
+                </ul>
+
+            </div>
+
+        </nav>
+    </header>
+
+    <div class="">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer style="text-align: center;background-color: rgb(68, 68, 68);">
+        <div>
+            <a href="http://www.facebook.com" class="icon facebook"><span>Facebook</span></a>
+            <a href="https://github.com/HarshRaw" target="_blank" class="icon github"><span>GitHub</span></a>
+
+            <a href="http://www.twitter.com" target="_blank" class="icon twitter"><span>Twitter</span></a>
+        </div>
+        <h6 style="color:whitesmoke !important;">
+            Made By Harsh Rawat Major Project
+        </h6><br>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/script.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
