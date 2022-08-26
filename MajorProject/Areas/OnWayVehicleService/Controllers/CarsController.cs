@@ -14,7 +14,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 {
 
     [Area("OnWayVehicleService")]
-    [Authorize(Roles = "RoleAdmin,RoleUser")]
+    
     public class CarsController : Controller
     {
         private readonly MajorProjectDbContext _context;
@@ -25,6 +25,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Cars
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Index()
         {
             var majorProjectDbContext = _context.Cars.Include(c => c.CarModels).Include(c => c.CarModels.CarCompanies).Include(c => c.Customers);
@@ -32,6 +33,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Cars/Details/5
+        [Authorize(Roles = "RoleAdmin,RoleUser")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,7 +53,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
             return View(car);
         }
-
+        [Authorize(Roles = "RoleUser")]
         // GET: OnWayVehicleService/Cars/Create
         public IActionResult Create()
         {
@@ -67,6 +69,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Create([Bind("CarId,CarMID,CarNumber,CustomerID")] Car car)
         {
             if (ModelState.IsValid)
@@ -93,6 +96,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Cars/Edit/5
+        [Authorize(Roles = "RoleAdmin,RoleUser")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,6 +122,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Edit(int id, [Bind("CarId,CarMID,CarNumber,CustomerID")] Car car)
         {
             if (id != car.CarId)
@@ -154,6 +159,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
         // GET: OnWayVehicleService/Cars/Delete/5
         [Authorize(Roles = "RoleAdmin")]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -177,6 +183,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "RoleAdmin")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var car = await _context.Cars.FindAsync(id);

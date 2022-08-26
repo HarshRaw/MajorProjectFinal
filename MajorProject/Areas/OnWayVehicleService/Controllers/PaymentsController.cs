@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MajorProject.Data;
 using MajorProject.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.OnWayVehicleService.Controllers
 {
@@ -21,6 +23,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Payments
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Index()
         {
             var majorProjectDbContext = _context.Payments
@@ -32,6 +35,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Payments/Details/5
+        [Authorize(Roles = "RoleAdmin,RoleUser")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +48,9 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
                 .Include(p => p.ServiceBookings)
                 .Include(p => p.ServiceBookings.Services)
                 .Include(p => p.ServiceBookings.Issues.Cars)
+                .Include(p => p.ServiceBookings.Issues.Cars.Customers)
+                .Include(p => p.ServiceBookings.Issues.Cars.CarModels)
+                .Include(p => p.ServiceBookings.Issues.Cars.CarModels.CarCompanies)
                 .FirstOrDefaultAsync(m => m.PaymentId == id);
             if (payment == null)
             {
@@ -54,6 +61,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Payments/Create
+        [Authorize(Roles = "RoleUser")]
         public IActionResult Create()
         {
             ViewData["PaymentMethodID"] = new SelectList(_context.PaymentModes, "PaymentModeID", "PaymentModes");
@@ -66,6 +74,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Create([Bind("PaymentId,ServiceBookingID,PaymentMethodID,UPIID,PStatus")] Payment payment)
         {
             if (ModelState.IsValid)
@@ -96,6 +105,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Payments/Edit/5
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,6 +128,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Edit(int id, [Bind("PaymentId,ServiceBookingID,PaymentMethodID,UPIID,PStatus")] Payment payment)
         {
             if (id != payment.PaymentId)
@@ -151,6 +162,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Payments/Delete/5
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -173,6 +185,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // POST: OnWayVehicleService/Payments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var payment = await _context.Payments.FindAsync(id);

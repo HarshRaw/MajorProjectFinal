@@ -11,6 +11,18 @@
     <h4>ServiceBooking</h4>
     <hr />
     <dl class="row">
+            <dt class="col-sm-2">
+                Your Name
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Issues.Cars.Customers.CustomerName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ServiceBookingId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ServiceBookingId)
+            </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DateCreated)
         </dt>
@@ -29,6 +41,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Services.ServiceDescription)
         </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CurrentLocationOfCar)
         </dt>
@@ -38,7 +51,8 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ServiceBookingId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    To Be Paid:    @Html.DisplayFor(model => model.Services.Price)
+        <a class="btn btn-outline-primary" asp-area="OnWayVehicleService" asp-controller="Payments" asp-action="Create">Get Your Payment Done!(Kindly Note Your Service Booking Id Id)</a>
+
 </div>
 </div>

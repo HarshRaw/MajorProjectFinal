@@ -5,12 +5,26 @@
 }
 <div style="padding-top:6rem;padding-left:2rem;padding-right:2rem">
 
-<h1>Details</h1>
-
+<h1>Service Booked</h1>
+<br />
+<br />
+<br />
 <div>
-    <h4>Payment</h4>
+    <h4>Kindly Wait For Our Mechanic To Contact You</h4>
     <hr />
     <dl class="row">
+            <dt class="col-sm-2">
+                Your Name
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ServiceBookings.Issues.Cars.Customers.CustomerName)
+            </dd>
+            <dt class="col-sm-2">
+                Car
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ServiceBookings.Issues.Cars.CarModels.CarModels) , @Html.DisplayFor(model => model.ServiceBookings.Issues.Cars.CarModels.CarCompanies.CarCompanies)
+            </dd>
             <dt class="col-sm-2">
                 Car Number
             </dt>
@@ -24,10 +38,16 @@
                 @Html.DisplayFor(model => model.ServiceBookings.CurrentLocationOfCar)
             </dd>
         <dt class = "col-sm-2">
-            Price
+            Payment Made
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ServiceBookings.Services.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            Service Booked
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServiceBookings.Services.Services)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PaymentModes)
@@ -49,8 +69,11 @@
         </dd>
     </dl>
 </div>
-<div>
+<div>@*
     <a asp-action="Edit" asp-route-id="@Model.PaymentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>*@
 </div>
 </div>
+<br />
+<br />
+<br />

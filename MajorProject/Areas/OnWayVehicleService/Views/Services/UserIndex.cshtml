@@ -8,8 +8,8 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
+@*    <a asp-action="Create">Create New</a>
+*@</p>
 <table class="table">
     <thead>
         <tr>
@@ -37,11 +37,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td style="justify-content:center">
-                <div style="text-align:center">
-                            <a class="btn btn-outline-primary" style="margin:2px" asp-action="Details" asp-route-id="@item.ServiceID">Details</a>
-                            <a class="btn btn-outline-primary" style="margin:2px"  asp-action="Delete" asp-route-id="@item.ServiceID">Delete</a>
-                </div>
+            <td>
+                <a asp-action="UserDetails" asp-route-id="@item.ServiceID">Details</a> 
             </td>
         </tr>
 }

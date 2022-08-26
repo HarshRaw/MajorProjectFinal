@@ -13,7 +13,6 @@ using System.Data;
 namespace MajorProject.Areas.OnWayVehicleService.Controllers
 {
     [Area("OnWayVehicleService")]
-    [Authorize(Roles = "RoleAdmin")]
     public class ServicesController : Controller
     {
         private readonly MajorProjectDbContext _context;
@@ -24,13 +23,39 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Services
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Index()
+        {
+            return View(await _context.Services.ToListAsync());
+        }
+        
+        public async Task<IActionResult> UserIndex()
         {
             return View(await _context.Services.ToListAsync());
         }
 
         // GET: OnWayVehicleService/Services/Details/5
+        [Authorize(Roles = "RoleAdmin")]
+
         public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var service = await _context.Services
+                .FirstOrDefaultAsync(m => m.ServiceID == id);
+            if (service == null)
+            {
+                return NotFound();
+            }
+
+            return View(service);
+        }
+        [Authorize(Roles = "RoleUser")]
+
+        public async Task<IActionResult> UserDetails(int? id)
         {
             if (id == null)
             {
@@ -48,6 +73,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Services/Create
+        [Authorize(Roles = "RoleAdmin")]
+
         public IActionResult Create()
         {
             return View();
@@ -58,6 +85,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
+
         public async Task<IActionResult> Create([Bind("ServiceID,Services,ServiceDescription,Price")] Service service)
         {
             if (ModelState.IsValid)
@@ -90,6 +119,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
+
         public async Task<IActionResult> Edit(int id, [Bind("ServiceID,Services,ServiceDescription,Price")] Service service)
         {
             if (id != service.ServiceID)
@@ -121,6 +152,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Services/Delete/5
+        [Authorize(Roles = "RoleAdmin")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,6 +174,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // POST: OnWayVehicleService/Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var service = await _context.Services.FindAsync(id);

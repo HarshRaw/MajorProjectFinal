@@ -32,11 +32,11 @@
                 </div>
 
                 <div class="logo" style="">
-                    <a asp-area="" asp-page="/Index" style="color:#fff;text-decoration:none">MyGarageServices</a>
+                    <a asp-area="" asp-page="/Index" style="color:#fff;text-decoration:none">MyVehicleServices</a>
                 </div>
 
                 <ul>
-                    <li><a asp-area="" asp-page="/Index">Home</a></li>
+                    @*<li><a asp-area="" asp-page="/Index">Home</a></li>*@
 
 
                     @*User Option*@
@@ -51,7 +51,7 @@
                     }
 
 
-                    <li><a asp-area="OnWayVehicleService" asp-controller="Services" asp-action="Index" style="color:white"> Services </a></li>
+                    <li><a asp-area="OnWayVehicleService" asp-controller="Services" asp-action="UserIndex" style="color:white"> Services </a></li>
 
                     @*Admin Option*@
                     @if (userObj != null)
@@ -67,9 +67,10 @@
                                     <div class="dropdown-menu">
 
                                         <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="Services" asp-action="Create" style="color:black"> Add New Services </a>
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="IssueCategories" asp-action="Index" style="color:black">Add New Issues</a>
 
-                                        <a class="dropdown-item"  asp-area="OnWayVehicleService" asp-controller="Issues" asp-action="Index" style="color:black">Issues</a>
-                                        <a class="dropdown-item"  asp-area="OnWayVehicleService" asp-controller="ServiceBookings" asp-action="Index1" style="color:black">Check Bookings</a>
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="Issues" asp-action="AdminIndex" style="color:black">View Issues</a>
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="ServiceBookings" asp-action="Index1" style="color:black">View Bookings</a>
 
                                     </div>
                                 </div>
@@ -81,7 +82,7 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="CarModels" asp-action="Index"> Car Models</a>
-                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="CarComapnies" asp-action="Index"> Car Companies</a>
+                                        <a class="dropdown-item" asp-area="OnWayVehicleService" asp-controller="CarCompanies" asp-action="Index"> Car Companies</a>
                                     </div>
                                 </div>
                             </li>

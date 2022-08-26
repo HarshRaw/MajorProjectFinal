@@ -24,6 +24,12 @@
                 @Html.DisplayFor(model => model.Issues.Cars.Customers.Email) ,  @Html.DisplayFor(model => model.Issues.Cars.Customers.MobileNumber)
             </dd>
             <dt class="col-sm-2">
+                Urgency 
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Issues.Urgencies.Urgencies)
+            </dd>
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Issues.Cars.CarNumber)
             </dt>
             <dd class="col-sm-10">
@@ -39,7 +45,7 @@
             @Html.DisplayNameFor(model => model.Issues)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Issues.IssueId)
+            @Html.DisplayFor(model => model.Issues.IssueCategories.Issue)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Services)

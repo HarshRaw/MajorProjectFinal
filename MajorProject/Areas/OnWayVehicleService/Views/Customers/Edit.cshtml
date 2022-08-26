@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="CustomerId" />
             <div class="form-group">
                 <label asp-for="CustomerName" class="control-label"></label>
-                <input asp-for="CustomerName" class="form-control" readonly="readonly" />
+                <input asp-for="CustomerName" class="form-control"  />
                 <span asp-validation-for="CustomerName" class="text-danger" ></span>
             </div>
             <div class="form-group">
@@ -42,7 +42,9 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+        <a class="btn btn-outline-primary" asp-area="OnWayVehicleService" asp-controller="Cars" asp-action="Create">Add Your Car</a>
+
+        <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@Model.CustomerId">Back to Details</a>
 </div>
 </div>
 

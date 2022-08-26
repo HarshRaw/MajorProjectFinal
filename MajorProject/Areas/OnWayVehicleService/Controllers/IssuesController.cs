@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MajorProject.Areas.OnWayVehicleService.Controllers
 {
-    [Authorize]
     [Area("OnWayVehicleService")]
     public class IssuesController : Controller
     {
@@ -23,13 +22,21 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Issues
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Index()
+        {
+            var majorProjectDbContext = _context.Issues.Include(i => i.Cars).Include(i => i.Cars.Customers).Include(i => i.IssueCategories).Include(i => i.Urgencies);
+            return View(await majorProjectDbContext.ToListAsync());
+        }
+        [Authorize(Roles = "RoleAdmin")]
+        public async Task<IActionResult> AdminIndex()
         {
             var majorProjectDbContext = _context.Issues.Include(i => i.Cars).Include(i => i.Cars.Customers).Include(i => i.IssueCategories).Include(i => i.Urgencies);
             return View(await majorProjectDbContext.ToListAsync());
         }
 
         // GET: OnWayVehicleService/Issues/Details/5
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,7 +57,31 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
             return View(issue);
         }
 
+        [Authorize(Roles = "RoleAdmin")]
+        public async Task<IActionResult> AdminDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var issue = await _context.Issues
+                .Include(i => i.Cars)
+                .Include(i => i.IssueCategories)
+                .Include(i => i.Urgencies)
+                .FirstOrDefaultAsync(m => m.IssueId == id);
+            if (issue == null)
+            {
+                return NotFound();
+            }
+
+            return View(issue);
+        }
+
+
+
         // GET: OnWayVehicleService/Issues/Create
+        [Authorize(Roles = "RoleUser")]
         public IActionResult Create()
         {
             ViewData["Car"] = new SelectList(_context.Cars, "CarId", "CarNumber");
@@ -64,6 +95,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Create([Bind("IssueId,Car,Urgency,IssueCategory,Services")] Issue issue)
         {
             if (ModelState.IsValid)
@@ -79,6 +111,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Issues/Edit/5
+        [Authorize(Roles = "RoleAdmin,RoleUser")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,6 +135,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin,RoleUser")]
         public async Task<IActionResult> Edit(int id, [Bind("IssueId,Car,Urgency,IssueCategory,Services")] Issue issue)
         {
             if (id != issue.IssueId)
@@ -136,6 +170,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Issues/Delete/5
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,6 +194,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // POST: OnWayVehicleService/Issues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var issue = await _context.Issues.FindAsync(id);

@@ -19,6 +19,7 @@ h1 {
 body {
     font-family: "Helvetica Neue",sans-serif;
     font-weight: lighter;
+    background: rgba(239, 239, 240, .3)
 }
 
 .frontpage {
@@ -453,7 +454,7 @@ nav {
     }
 
 .purple {
-    background: #9386a7;
+    background: #51A1F6;
 }
 
     .purple .date {

@@ -1,0 +1,51 @@
+﻿@model MajorProject.Models.Issue
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div style="padding-top:6rem;padding-left:2rem;padding-right:2rem">
+
+<h1>Details</h1>
+
+<div>
+    <h4>Issue</h4>
+    <hr />
+    <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IssueId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IssueId)
+            </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cars)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cars.CarNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Urgencies)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Urgencies.TimeToReach)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IssueCategories)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IssueCategories.Issue)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Services)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Services)
+        </dd>
+    </dl>
+</div>
+<div >
+
+        <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@Model.IssueId">Edit</a> |
+        <a class="btn btn-outline-secondary" asp-action="Index">Back to List</a>
+    </div>
+</div>

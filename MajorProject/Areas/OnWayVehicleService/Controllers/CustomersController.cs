@@ -13,7 +13,6 @@ using System.Data;
 namespace MajorProject.Areas.OnWayVehicleService.Controllers
 {
     [Area("OnWayVehicleService")]
-    [Authorize(Roles = "RoleUser")]
     public class CustomersController : Controller
     {
         private readonly MajorProjectDbContext _context;
@@ -24,12 +23,14 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Customers
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Customers.ToListAsync());
         }
 
         // GET: OnWayVehicleService/Customers/Details/5
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +49,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Customers/Create
+        [Authorize(Roles = "RoleUser")]
         public IActionResult Create()
         {
             return View();
@@ -58,6 +60,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Create([Bind("CustomerId,CustomerName,MobileNumber,Email,Address")] Customer customer)
         {
             if (ModelState.IsValid)
@@ -88,6 +91,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/Customers/Edit/5
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,6 +112,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin,RoleUser")]
         public async Task<IActionResult> Edit(int id, [Bind("CustomerId,CustomerName,MobileNumber,Email,Address")] Customer customer)
         {
             if (id != customer.CustomerId)

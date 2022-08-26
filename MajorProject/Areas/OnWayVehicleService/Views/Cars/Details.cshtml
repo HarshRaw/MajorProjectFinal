@@ -39,7 +39,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.CarId">Edit</a> 
+
+
+        <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@Model.CarId">Edit Your Details</a>
+        <a class="btn btn-outline-primary" asp-area="OnWayVehicleService" asp-controller="Issues" asp-action="Create">Add Issue</a>
+
 @*    <a asp-action="Index">Back to List</a>
 *@</div>
 </div>

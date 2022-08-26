@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MajorProject.Data;
 using MajorProject.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MajorProject.Areas.OnWayVehicleService.Controllers
 {
@@ -21,12 +23,13 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/ServiceBookings
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Index()
         {
             var majorProjectDbContext = _context.ServiceBookings.Include(s => s.Issues).Include(s => s.Services);
             return View(await majorProjectDbContext.ToListAsync());
         }
-
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Index1()
         {
             var majorProjectDbContext = _context.ServiceBookings.
@@ -39,6 +42,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
 
         // GET: OnWayVehicleService/ServiceBookings/Details/5
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,7 +52,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
             var serviceBooking = await _context.ServiceBookings
                 .Include(s => s.Issues)
-                .Include(s => s.Services)
+                .Include(s => s.Issues.Urgencies)
+                .Include(s => s.Services).Include(s => s.Issues.Cars.Customers)
                 .FirstOrDefaultAsync(m => m.ServiceBookingId == id);
             if (serviceBooking == null)
             {
@@ -57,6 +62,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
             return View(serviceBooking);
         }
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Details1(int? id)
         {
             if (id == null)
@@ -66,6 +72,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
             var serviceBooking = await _context.ServiceBookings
                 .Include(s => s.Issues)
+                .Include(s => s.Issues.IssueCategories)
+                .Include(s => s.Issues.Urgencies)
                 .Include(s => s.Services).Include(s => s.Issues.Cars.Customers)
                 .FirstOrDefaultAsync(m => m.ServiceBookingId == id);
             if (serviceBooking == null)
@@ -76,6 +84,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
             return View(serviceBooking);
         }
         // GET: OnWayVehicleService/ServiceBookings/Create
+        [Authorize(Roles = "RoleUser")]
         public IActionResult Create()
         {
             ViewData["Issue"] = new SelectList(_context.Issues, "IssueId", "IssueId");
@@ -88,6 +97,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Create([Bind("ServiceBookingId,DateCreated,Issue,Service,CurrentLocationOfCar")] ServiceBooking serviceBooking)
         {
             if (ModelState.IsValid)
@@ -102,6 +112,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/ServiceBookings/Edit/5
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,6 +135,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Edit(int id, [Bind("ServiceBookingId,DateCreated,Issue,Service,CurrentLocationOfCar")] ServiceBooking serviceBooking)
         {
             if (id != serviceBooking.ServiceBookingId)
@@ -156,6 +168,7 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         }
 
         // GET: OnWayVehicleService/ServiceBookings/Delete/5
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,10 +187,12 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
 
             return View(serviceBooking);
         }
+        
 
         // POST: OnWayVehicleService/ServiceBookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "RoleAdmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var serviceBooking = await _context.ServiceBookings.FindAsync(id);
