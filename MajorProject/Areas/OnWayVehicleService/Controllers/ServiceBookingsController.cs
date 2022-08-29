@@ -100,7 +100,8 @@ namespace MajorProject.Areas.OnWayVehicleService.Controllers
         [Authorize(Roles = "RoleUser")]
         public async Task<IActionResult> Create([Bind("ServiceBookingId,DateCreated,Issue,Service,CurrentLocationOfCar")] ServiceBooking serviceBooking)
         {
-            if (ModelState.IsValid)
+            DateTime a =  DateTime.Now;
+            if (ModelState.IsValid && a>=serviceBooking.DateCreated) // Date checked
             {
                 _context.Add(serviceBooking);
                 await _context.SaveChangesAsync();

@@ -20,9 +20,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\UserServiceBooking\Controllers\" />
-    <Folder Include="Areas\UserServiceBooking\Views\" />
-  </ItemGroup>
-
 </Project>

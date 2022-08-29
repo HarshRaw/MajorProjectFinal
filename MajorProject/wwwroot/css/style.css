@@ -454,7 +454,7 @@ nav {
     }
 
 .purple {
-    background: #51A1F6;
+    background: blue;
 }
 
     .purple .date {
@@ -462,20 +462,10 @@ nav {
     }
 
     .purple:hover {
-        background: #7b6b94;
+        background: #51A1F6;
     }
 
-.mustard {
-    background: #b38410;
-}
 
-    .mustard .date {
-        color: #f2ce73;
-    }
-
-    .mustard:hover {
-        background: #8c680d;
-    }
 /* blockquote */
 blockquote {
     margin: 0 auto;

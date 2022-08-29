@@ -1,6 +1,6 @@
 ﻿@using MajorProject.Models
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<IdentityUser> userManager //injecting enum roleuser roleadmin
 
 @{
     IdentityUser userObj = null;
@@ -36,7 +36,6 @@
                 </div>
 
                 <ul>
-                    @*<li><a asp-area="" asp-page="/Index">Home</a></li>*@
 
 
                     @*User Option*@
@@ -53,7 +52,7 @@
 
                     <li><a asp-area="OnWayVehicleService" asp-controller="Services" asp-action="UserIndex" style="color:white"> Services </a></li>
 
-                    @*Admin Option*@
+                    @*Admin drop down Option*@
                     @if (userObj != null)
                     {
                         if (await userManager.IsInRoleAsync(userObj, MyIdentityRoleNames.RoleAdmin.ToString()))
